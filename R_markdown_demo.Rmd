@@ -1,0 +1,8 @@
+---
+title: "R_markdown_demo"
+author: "Hope Hahn"
+date: "10/18/2021"
+output: github_document
+---
+
+# Goal
