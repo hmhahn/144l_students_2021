@@ -20,20 +20,20 @@ library(lubridate)
 ```{r}
 #make sure to update the filepaths for your own locally-stored repository! 
 
-excel_sheets("~/Documents/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx")
+excel_sheets("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx")
 
 #Mac: to make an arrow, use Option + - 
 
-metadata <- read_excel("~/Documents/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "Metadata")
+metadata <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "Metadata")
 
 glimpse(metadata)
 #unique(metadata$Bottle)
 #unique(metadata$Treatment)
 
-dapi_data <- read_excel("~/Documents/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "DAPI_Data")
+dapi_data <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "DAPI_Data")
 glimpse(dapi_data)
 
-toc_data <- read_excel("~/Documents/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "TOC_Data")
+toc_data <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "TOC_Data")
 glimpse(toc_data)
 
 dapi_metadata <- metadata %>%
@@ -97,7 +97,7 @@ glimpse(cells)
 ```
 Q1: What differences between the treatments do you observe? Does this make sense in the context of the oxygen drawdown data (pictured below)?
 
-A1: 
+A1: The control treatment grew the slowest, and was relatively low compared to the other treatments throughout the experiment. The kelp exudate treatment was the next lowest, but had a higher rate of growth towards the beginning of the experiment. For the kelp + nutrients treatment, the rate of growth was higher than both of the other treatments, and the overall cell abundance was much higher. However, the glucose + nutrients treatment had the highest growth rate and cell abundance until day 2, and then the cell abundance decreased slightly unlike the three other treatments. This makes sense considering the glucose treatment had the highest decrease in oxygen and the control had the lowest decrease in oxygen. This correlates to the amount of bacteria using up this oxygen per treatment. 
 
 Oxygen Drawdown: 
 ![](EEMB144_remin_autoBOD.png)
@@ -124,7 +124,7 @@ glimpse(cells)
 ```
 Q2: What differences do you notice between the cell abundance data and the cell biovolume data across each treatment? 
 
-A2: 
+A2: In all of the treatments, the cell biovolume increases then decreases again. The control group had the least variation in biovolume, while it appears the glucose + nutrients treatment and kelp exudate + nutrients treatment had the highest variation, with much higher mean biovolume per cell than the other two treatments during day two. By time point 8, the kelp exudate treatment had the lowest biovolume while the control, glucose, and exudate + nutrients treatment had the next highest in that order.
 
 # Next Steps 
 
@@ -180,7 +180,7 @@ A: Between 0-2 days for all bottles. (T0 - T4)
 
 Q3: What are the limitations of using the DAPI data (only 3 timepoints) instead of the FCM data? Hint: Think about this question in terms of bacterial growth curves, and which phase of growth we need in order to calculate specific growth rates. 
 
-A3:
+A3: The limitations are that because DAPI only has three timepoints whereas FCM has data from each timepoint, the slope of the curve from exponential growth phase is not as accurate. To get specific growth rate, µ, you must find the slope during the exponential growth phase. It is possible that exponential growth was still occuring slightly past T4, but we would not see that with the DAPI data. Without the specific points from exponential growth phase, we cannot get an accurate µ. 
 
 ## Calculate growth rates, doubling times, and ∆cell abundances using cell abundance data (cells/L)
 
@@ -240,7 +240,7 @@ glimpse(bactcarbon)
 
 #update this filepath to match your own repository 
 #save your data to a .csv 
-write.csv(bactcarbon, "~/Documents/144l_students_2021/Output_Data/week6/211101_dapi_data_calculations.csv")
+write.csv(bactcarbon, "~/Desktop/github/144l_students_2021/Output_Data/week6/211101_dapi_data_calculations.csv")
 
 #normally we would do this for the individual bottles and then calculate averages, but can't do that here since we have data from combined bottles 
 
@@ -260,7 +260,7 @@ trt_ba <- bactcarbon %>%
 
 trt_ba
 
-saveRDS(trt_ba, "~/Documents/144l_students_2021/Output_Data/week6/144L_trt_ba_plot.rds")
+saveRDS(trt_ba, "~/Desktop/github/144l_students_2021/Output_Data/week6/144L_trt_ba_plot.rds")
 ```
 
 ```{r fig.height=4, fig.width=6}
@@ -275,12 +275,12 @@ trt_ba_biovol <- bactcarbon %>%
 
 trt_ba_biovol
 
-saveRDS(trt_ba_biovol, "~/Documents/144l_students_2021/Output_Data/week6/144L_trt_ba_biovol_plot.rds")
+saveRDS(trt_ba_biovol, "~/Desktop/github/144l_students_2021/Output_Data/week6/144L_trt_ba_biovol_plot.rds")
 ```
 
 Q4: How do the bacterial carbon values change when we account for changes in cell biovolume as the experiment progresses? 
 
-A4: 
+A4: When we account for changes in cell biovolume, the bacterial carbon has a higher peak during T4, but then decreases until T8 (except for the control which just has less of an increase). When biovolume was not accounted for, only the glucose treatment decreased after T4. Accounting for biovolume causes a steeper increase and decrease, causing higher bacterial carbon values during T4 and lowe bacterial carbon values during T8.
 
 ## Barplots
 
@@ -343,12 +343,12 @@ delta_cells + mew + doubling + plot_annotation(tag_levels = "a") +plot_layout(nc
 
 Q5: Do the patterns you see in the ∆Cells, specific growth rate (u), and doubling time line up with our previous observations of cell abundance? How about with the oxygen drawdown data?
 
-A5: 
+A5: Yes, the specific growth rates are higher for the treatments that increased cell abundance faster, and are lower for the treatments that had a lower increase in cell abundance. It would make sense that the doubling time is inversely proportional to µ, since the treatments that were growing faster could double their population in a shorter amount of time. The treatments with the highest µ and lowest doubling time also had the largest change in cells since they grew more drastically. This also lines up with the oxygen drawdown data since the groups that had the highest increases of cell abudance used up the most oxygen. 
 
 # Save Data 
 
 ```{r}
-saveRDS(bactcarbon, "~/Documents/144l_students_2021/Output_Data/week6/144L_Exp_Processed_BactAbund.rds")
+saveRDS(bactcarbon, "~/Desktop/github/144l_students_2021/Output_Data/week6/144L_Exp_Processed_BactAbund.rds")
 ```
 
 # Incorporate TOC data
@@ -377,10 +377,10 @@ Q6: a) What was our target concentration of carbon to add to each treatment?
     c) What does this imply about our ability to assess the effect of the **type** of DOC added?
     d) What happens to TOC over time in the incubations and does this align with our other data?
 
-A6: a) 
-    b)
-    c) 
-    d) 
+A6: a) The target concentration of carbon to add to each treatment was 10 µM Carbon. 
+    b) We did not hit our target in each treatment. 
+    c) This implies that we cannot assume the differences in treatment were only influenced by the kind of DOC added, but it could have also been influenced by the starting amount of carbon added.
+    d) TOC decreases rapidly to T4, but then decreases more slowly after this time point. This aligns with our other data because during T0-T4, the cells were undergoing rapid growth, meaning they were using up the organic carbon resources. Growth slowed after this time point. 
 
 ## Calculate DOC, ∆DOC, Bioavailable DOC Fraction, and Bacterial Growth Efficiency (BGE)
 ```{r}
@@ -482,4 +482,4 @@ deldoc / deldoc_bv / bioav / bioav_bv / bge / bge_bv + plot_annotation(tag_level
 ```
 Q7: How does incorporating biovolume change (or not change) your interpretation of the ∆DOC, Bioavaliable DOC, and BGE values? Provide 1-2 sentences for each comparison (a vs. b,c vs. d & e vs. f)
 
-A7: 
+A7: For ∆DOC and Bioavailable DOC, accounting for biovolume does not change the pattern much, except that the kelp exudate + nutrients treatment is slightly higher than just the exudate treatment for the biovolume incorporated data. The values are also slightly higher for the biovolume incorporated data for the exudate, exudate + nutrients, and glucose treatments. The control treatment remained relatively the same. For the BGE data, the control group had relatively the same value after being adjusted for biovolume, but all the others had a large increase. The exudate + nutrient treatment remained the highest, while glucose and exudate treatments were relatively similar for both graphs. The control group had the second highest BGE before being adjusted for biovolume, and after incorporating biovolume, it became the lowest.
