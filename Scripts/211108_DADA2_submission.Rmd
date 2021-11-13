@@ -38,7 +38,7 @@ OR by:
 ```{r}
 #save the path to the directory with a COPY of your unzipped fastq files that you WILL work with. MAKE SURE YOU HAVE ANOTHER DIRECTORY WITH THE FILES THAT YOU WILL NEVER DIRECTLY WORK WITH. 
 
-path <- "~/Documents/144l_students_2021/Input_Data/week7/ACIDD_Remin_fastq" #make sure there is no / at the end of the path
+path <- "~/Desktop/github/144l_students_2021/Input_Data/week7/ACIDD_Remin_fastq" #make sure there is no / at the end of the path
 #also make sure there are no unzipped files in this directory
 
 #store the names of fwd and rv files as lists
@@ -81,7 +81,7 @@ primerHits <- function(primer, fn) {
   #Counts number of reads in which the primer is found
   nhits <- vcountPattern(primer, sread(readFastq(fn)), fixed = FALSE)
   return(sum(nhits >0))
-}
+  }
 rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs[[1]]), 
       FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs[[1]]), 
       REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs[[1]]), 
@@ -90,7 +90,7 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs[[1]]),
 
 Q1: Why do we see primers in the reverse complement of FWD.ReverseReads and REV.ForwardReads? What will we use to remove them later?
 
-A1: 
+A1: This means that the reads are long enough to get a little part of the end. Later, when we merge the overlapping reads, we will use trimOverhang = T to remove these.
 
 # Insepct read quality profiles 
 
@@ -102,7 +102,7 @@ You should look at least some of the quality profiles to assess the quality of t
 plotQualityProfile(fnFs[1:12])
 ```
 Q2: Where will we trim our forward reads, and why?
-A2:
+A2: 240 bp. For the forward reads, the quality doesn't drop off too drastically, but we want to trim it where the quality is not as good as the rest. This is around 240 for all the forward reads. 
 
 # Reverse reads 
 
@@ -111,10 +111,10 @@ plotQualityProfile(fnRs[1:12])
 ```
 
 Q3: How does the quality of the reverse reads compare to the forward reads? Is the quality of these reads acceptable to continue through the DADA2 pipeline? Why or why not? 
-A3: 
+A3: The quality of the reverse reads becomes much worse compared to the forward reads. The quality of these reads is acceptable to continue because later in the error model DADA2 will incorporate quality information. 
 
 Q4: Where will we trim our reverse reads and why?
-A4: 
+A4: We will trim our reverse reads around 150 bp because that is where the quality drops off.
 
 # Filtering and Trimming 
 
@@ -143,11 +143,11 @@ out
 
 Q5: What does it mean if a base call (base pairs read by the sequencer) is an "N"? Are we going to use sequences that contain N's in the rest of our workflow? Which part of the filterAndTrim function specifies how to treat sequences with N's in them? 
 
-A5: 
+A5: The base call is an N when the sequencer doesn't know what nucleotide gets put there. We are not going to use sequences that contain N's in the rest of our workflow. maxN = O is the part that removes sequences with N's in them. 
 
 Q6: Based on the "out" table, what is the average percentage of our reads that we retain (reads that did not get filtered out) going forward in the pipeline? 
 
-A6: 
+A6: The average percentage of our reads that we retain is the amount of reads out over reads in. It appears that the average percentage of reads that we retain is about 93%.
 
 # Learn the error rates
 
@@ -172,7 +172,7 @@ plotErrors(errF, nominalQ = TRUE)
 plotErrors(errR, nominalQ = TRUE)
 ```
 Q7: What is the relationship between quality score and error rate show in the 2 plots above? 
-A7: 
+A7: When the quality score is higher, the error rate is lower. When quality score is lower, the error rate is higher.
 
 # Dereplication 
 
@@ -188,7 +188,7 @@ names(derepRs) <- sample.names
 
 Q8: What percentage of the reverse reads in the ASH171-A0 sample were unique? 
 
-A8: 
+A8: 6257 out of 12306 sequences were unique, which is about 50.8%.
 
 # Infer sequence variants 
 
@@ -217,14 +217,14 @@ head(mergers[[1]])
 ```
 Q9: What does the nmatch column tell us about our merged forward & reverse reads?
 
-A9: 
+A9: nmatch tells us the number of matches of overlap in forward and reverse regions - how many bases matched. 
 
 save the unassigned merged reads
 
 ```{r}
 #tutorial says week 5/6, just save in Input & Output data for Week 7 (we are on a different schedule this year than previous)
-saveRDS(mergers, "~/Documents/144l_students_2021/Output_Data/week7/dada_merged.rds")
-saveRDS(mergers, "~/Documents/144l_students_2021/Input_Data/week7/dada_merged.rds")
+saveRDS(mergers, "~/Desktop/github/144l_students_2021/Output_Data/week7//dada_merged.rds")
+saveRDS(mergers, "~/Desktop/github//144l_students_2021/Input_Data/week7/dada_merged.rds")
 ```
 
 Construct a sequence table of our samples that is analogous to the "OTU table" produced by classical methods
@@ -259,7 +259,7 @@ sum(seqtab.nochim)/sum(seqtab)
 here we are referencing the Silva database
 
 ```{r}
-taxa <- assignTaxonomy(seqtab.nochim, "~/Documents/144l_students_2021/Input_Data/week7/Reference_Database/silva_nr_v138_train_set.fa", multithread = TRUE)
+taxa <- assignTaxonomy(seqtab.nochim, "~/Desktop/github/144l_students_2021/Input_Data/week7/Reference_Database/silva_nr_v138_train_set.fa", multithread = TRUE)
 
 ```
 
@@ -270,13 +270,13 @@ create a table out of the taxa data (one with the sequences and taxonomic assign
 these are the tables you want to save!! 
 
 ```{r}
-saveRDS(t(seqtab.nochim), "~/Documents/144l_students_2021/Output_Data/week7/seqtab-nochimtaxa.rds")
-saveRDS(taxa, "~/Documents/144l_students_2021/Output_Data/week7/taxa.rds")
+saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Output_Data/week7/seqtab-nochimtaxa.rds")
+saveRDS(taxa, "~/Desktop/github/144l_students_2021/Output_Data/week7/taxa.rds")
 
 #save in both Output and Input data folders for week7
 
-saveRDS(t(seqtab.nochim), "~/Documents/144l_students_2021/Input_Data/week7/seqtab-nochimtaxa.rds")
-saveRDS(taxa, "~/Documents/144l_students_2021/Input_Data/week7/taxa.rds")
+saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Input_Data/week7/seqtab-nochimtaxa.rds")
+saveRDS(taxa, "~/Desktop/github/144l_students_2021/Input_Data/week7/taxa.rds")
         
 ```
 
