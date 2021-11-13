@@ -147,10 +147,11 @@ plotQualityProfile(fnFs[1:12])
     ## "none")` instead.
 
 ![](211108_DADA2_submission_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
-Q2: Where will we trim our forward reads, and why? A2: 240 bp. For the
-forward reads, the quality doesn’t drop off too drastically, but we want
-to trim it where the quality is not as good as the rest. This is around
-240 for all the forward reads.
+Q2: Where will we trim our forward reads, and why?
+
+A2: 240 bp. For the forward reads, the quality doesn’t drop off too
+drastically, but we want to trim it where the quality is not as good as
+the rest. This is around 240 for all the forward reads.
 
 # Reverse reads
 
@@ -165,13 +166,17 @@ plotQualityProfile(fnRs[1:12])
 
 Q3: How does the quality of the reverse reads compare to the forward
 reads? Is the quality of these reads acceptable to continue through the
-DADA2 pipeline? Why or why not? A3: The quality of the reverse reads
-becomes much worse compared to the forward reads. The quality of these
-reads is acceptable to continue because later in the error model DADA2
-will incorporate quality information.
+DADA2 pipeline? Why or why not?
 
-Q4: Where will we trim our reverse reads and why? A4: We will trim our
-reverse reads around 150 bp because that is where the quality drops off.
+A3: The quality of the reverse reads becomes much worse compared to the
+forward reads. The quality of these reads is acceptable to continue
+because later in the error model DADA2 will incorporate quality
+information.
+
+Q4: Where will we trim our reverse reads and why?
+
+A4: We will trim our reverse reads around 150 bp because that is where
+the quality drops off.
 
 # Filtering and Trimming
 
@@ -283,8 +288,10 @@ the algorithm.
 
 <img src="211108_DADA2_submission_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 Q7: What is the relationship between quality score and error rate show
-in the 2 plots above? A7: When the quality score is higher, the error
-rate is lower. When quality score is lower, the error rate is higher.
+in the 2 plots above?
+
+A7: When the quality score is higher, the error rate is lower. When
+quality score is lower, the error rate is higher.
 
 # Dereplication
 
