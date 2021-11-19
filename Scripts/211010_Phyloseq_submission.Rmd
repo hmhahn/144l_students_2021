@@ -379,7 +379,7 @@ relaheat
 
 Q7: Who uniquely increased in relative abundance in the ash leachate treatment that did not in the control? what about decrease?
 
-A7: Oceanospirillales, Campylobacterales, and Alteromonadales all increase in relative abundance in the ash leachate treatment, but not really for the control. There were no noticable decreases in the ash leachate that did not occur in the control as well, but the SAR11 clade decreased in abundance **more** in the ash leachate treatment than the control. Synechococcales also decreased in relative abundance in the ash leachate **more** than the control. 
+A7: Oceanospirillales, Campylobacterales, and Alteromonadales all increase in relative abundance in the ash leachate treatment, but not really for the control. There were no noticable decreases in the ash leachate that did not occur in the control as well, but the SAR11 clade had a larger decrease in abundance in the ash leachate treatment than the control. Synechococcales also had a larger decrease in relative abundance in the ash leachate than the control. 
 
 Everything shown here is just a snapshot of what you can look at with your community composition data. There are many other resources you can use to get ideas of how to look at different aspects of your data, including the [phyloseq tutorial](https://joey711.github.io/phyloseq/) and [happy belly bioinformatics](https://astrobiomike.github.io). It's up to you and your questions!!
 

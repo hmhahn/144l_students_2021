@@ -388,59 +388,57 @@ nmds_min <- ordinate(ps_min, method = "NMDS",  distance = "bray") # stress = 0.0
 
     ## Square root transformation
     ## Wisconsin double standardization
-    ## Run 0 stress 0.0384761 
-    ## Run 1 stress 0.162918 
-    ## Run 2 stress 0.03847611 
-    ## ... Procrustes: rmse 1.713854e-05  max resid 3.68036e-05 
-    ## ... Similar to previous best
-    ## Run 3 stress 0.0384761 
-    ## ... Procrustes: rmse 6.606745e-06  max resid 1.418504e-05 
-    ## ... Similar to previous best
-    ## Run 4 stress 0.3046417 
-    ## Run 5 stress 0.03847611 
-    ## ... Procrustes: rmse 2.034711e-05  max resid 4.481165e-05 
-    ## ... Similar to previous best
-    ## Run 6 stress 0.0384761 
+    ## Run 0 stress 0.04483483 
+    ## Run 1 stress 0.174781 
+    ## Run 2 stress 0.04483483 
     ## ... New best solution
-    ## ... Procrustes: rmse 1.080271e-05  max resid 2.286382e-05 
+    ## ... Procrustes: rmse 1.468714e-06  max resid 2.939261e-06 
     ## ... Similar to previous best
-    ## Run 7 stress 0.0384761 
-    ## ... Procrustes: rmse 8.099644e-06  max resid 1.704645e-05 
+    ## Run 3 stress 0.04483483 
+    ## ... Procrustes: rmse 2.036675e-06  max resid 4.282906e-06 
     ## ... Similar to previous best
-    ## Run 8 stress 0.0384761 
-    ## ... Procrustes: rmse 6.102627e-06  max resid 1.104295e-05 
+    ## Run 4 stress 0.3197986 
+    ## Run 5 stress 0.04483483 
+    ## ... Procrustes: rmse 9.91949e-07  max resid 2.089411e-06 
     ## ... Similar to previous best
-    ## Run 9 stress 0.0384761 
-    ## ... Procrustes: rmse 7.326576e-06  max resid 1.531521e-05 
+    ## Run 6 stress 0.04483483 
+    ## ... Procrustes: rmse 2.569033e-06  max resid 5.352974e-06 
     ## ... Similar to previous best
-    ## Run 10 stress 0.0384761 
-    ## ... Procrustes: rmse 4.912316e-06  max resid 1.036117e-05 
+    ## Run 7 stress 0.04483483 
+    ## ... Procrustes: rmse 3.835202e-06  max resid 7.917893e-06 
     ## ... Similar to previous best
-    ## Run 11 stress 0.0384761 
-    ## ... Procrustes: rmse 5.677397e-06  max resid 1.224024e-05 
+    ## Run 8 stress 0.04483483 
+    ## ... Procrustes: rmse 1.808762e-06  max resid 3.902639e-06 
     ## ... Similar to previous best
-    ## Run 12 stress 0.162918 
-    ## Run 13 stress 0.0384761 
-    ## ... Procrustes: rmse 8.957277e-06  max resid 1.925748e-05 
+    ## Run 9 stress 0.04483483 
+    ## ... Procrustes: rmse 5.487316e-07  max resid 9.718967e-07 
     ## ... Similar to previous best
-    ## Run 14 stress 0.0384761 
-    ## ... Procrustes: rmse 1.221219e-06  max resid 3.331252e-06 
+    ## Run 10 stress 0.04483484 
+    ## ... Procrustes: rmse 8.571112e-06  max resid 1.730373e-05 
     ## ... Similar to previous best
-    ## Run 15 stress 0.03847611 
-    ## ... Procrustes: rmse 2.884127e-05  max resid 6.061299e-05 
+    ## Run 11 stress 0.04483483 
+    ## ... Procrustes: rmse 1.322656e-06  max resid 2.37637e-06 
     ## ... Similar to previous best
-    ## Run 16 stress 0.0384761 
-    ## ... Procrustes: rmse 1.659468e-05  max resid 3.530774e-05 
+    ## Run 12 stress 0.174781 
+    ## Run 13 stress 0.04483483 
+    ## ... Procrustes: rmse 2.97407e-06  max resid 6.281312e-06 
     ## ... Similar to previous best
-    ## Run 17 stress 0.0384761 
-    ## ... Procrustes: rmse 1.362138e-06  max resid 2.020502e-06 
+    ## Run 14 stress 0.2758772 
+    ## Run 15 stress 0.04483483 
+    ## ... Procrustes: rmse 3.619888e-06  max resid 7.496934e-06 
     ## ... Similar to previous best
-    ## Run 18 stress 0.3658208 
-    ## Run 19 stress 0.03847611 
-    ## ... Procrustes: rmse 2.119552e-05  max resid 4.501822e-05 
+    ## Run 16 stress 0.04483483 
+    ## ... Procrustes: rmse 1.058356e-06  max resid 2.271466e-06 
     ## ... Similar to previous best
-    ## Run 20 stress 0.0384761 
-    ## ... Procrustes: rmse 3.603452e-06  max resid 7.895703e-06 
+    ## Run 17 stress 0.04483483 
+    ## ... Procrustes: rmse 1.542963e-06  max resid 3.254704e-06 
+    ## ... Similar to previous best
+    ## Run 18 stress 0.3658214 
+    ## Run 19 stress 0.04483483 
+    ## ... Procrustes: rmse 3.329236e-06  max resid 6.971648e-06 
+    ## ... Similar to previous best
+    ## Run 20 stress 0.04483483 
+    ## ... Procrustes: rmse 1.181675e-06  max resid 2.588868e-06 
     ## ... Similar to previous best
     ## *** Solution reached
 
@@ -645,9 +643,9 @@ A7: Oceanospirillales, Campylobacterales, and Alteromonadales all
 increase in relative abundance in the ash leachate treatment, but not
 really for the control. There were no noticable decreases in the ash
 leachate that did not occur in the control as well, but the SAR11 clade
-decreased in abundance **more** in the ash leachate treatment than the
-control. Synechococcales also decreased in relative abundance in the ash
-leachate **more** than the control.
+had a larger decrease in abundance in the ash leachate treatment than
+the control. Synechococcales also had a larger decrease in relative
+abundance in the ash leachate than the control.
 
 Everything shown here is just a snapshot of what you can look at with
 your community composition data. There are many other resources you can
