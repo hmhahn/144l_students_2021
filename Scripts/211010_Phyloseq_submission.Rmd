@@ -1,6 +1,6 @@
 ---
 title: "Phyloseq"
-author: "Your Name"
+author: "Hope Hahn"
 date: "11/10/2021"
 output: github_document
 ---
@@ -27,16 +27,16 @@ library(lubridate)
 # Import Data 
 
 ```{r message = F}
-count.tab <- read_rds("~/Documents/144l_students_2021/Input_Data/week7/seqtab-nochimtaxa.rds") #table of counts for each sequence in each sample
-tax.tab <- read_rds("~/Documents/144l_students_2021/Input_Data/week7/taxa.rds") #table that matches ASV to sequence
+count.tab <- read_rds("~/Desktop/github/144l_students_2021/Input_Data/week7/seqtab-nochimtaxa.rds") #table of counts for each sequence in each sample
+tax.tab <- read_rds("~/Desktop/github/144l_students_2021/Input_Data/week7/taxa.rds") #table that matches ASV to sequence
 
 #you will need to download the ACIDD_Exp_Processed_DOC_BGE.rds and the ACIDD_Exp_BactAbund.xlsx files from Justine's Github repository (located in Input_Data/week7/) and put them into your own local Input Data folder
-metadata_OG <- read_excel("~/Documents/144l_students_2021/Input_Data/week7/ACIDD_Exp_BactAbund.xlsx", sheet = "Metadata")
+metadata_OG <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week7/ACIDD_Exp_BactAbund.xlsx", sheet = "Metadata")
 glimpse(metadata_OG)
 metadata <- metadata_OG %>%
   mutate(Datetime = ymd_hm(Datetime))
 glimpse(metadata)
-metadata_doc <- read_rds("~/Documents/144l_students_2021/Input_Data/week7/ACIDD_Exp_Processed_DOC_BGE.rds")
+metadata_doc <- read_rds("~/Desktop/github/144l_students_2021/Input_Data/week7/ACIDD_Exp_Processed_DOC_BGE.rds")
 glimpse(metadata_doc)
 join <- left_join(metadata_doc, metadata)
 sample.tab <- join %>%
@@ -67,7 +67,7 @@ sub_ps <- ps %>%
 
 Q1: What did we do in the code chunk above? (What is the difference between phyloseq object ps and phyloseq object sub_ps?) Why did we do this? 
 
-A1: 
+A1: Because we only want to look at bacterial sequences, we have to take out the observations that are mitochondria or chloroplasts.We use the function "subset_taxa" to remove the sequences that belong to mitochomdria and chloroplasts. sub_ps is derived from ps, but has the chloroplasts and mitochondria removed.
 
 # Sample Summary
 
@@ -86,7 +86,7 @@ ggplot(sample_sum_df, aes(x = sum)) +
 ```
 Q2: Describe what "sequencing depth" means in your own words. 
 
-A2: 
+A2: Sequencing depth describes the amount of reads that were used to reconstruct the genome.
 
 ```{r}
 # mean, max and min of sample read counts
@@ -132,7 +132,7 @@ mean(sample_sums(ps_min)) #6048 this is also the same as min(sample_sums(sub)ps)
 
 Q3: Do you think that the subsampling we did here will have a large effect on our beta diveristy analyses? why or why not? 
 
-A3: 
+A3: It will likely have a small effect because the mean is 7695 reads while the minimum is 6047. There is not a huge differential between these two numbers, so we do not expect a large effect of beta diversity analysis.
 
 ## NMDS
 
@@ -188,11 +188,13 @@ NMDS plots attempt to show ordinal distances between samples as accurately as po
 
 Q4: Which datasets were used to make the two NMDS plots above? Based on how these two plots look, which dataset are we going to move forward with and why? 
 
-A4: 
+A4: The two datasets that were used were the subsampled data and the not subsampled data. Based on the two plots, we can move forward with the subsampled data because the patterns of diversity are very similar between both plots. 
 
 Q5: Describe in a couple of sentences what patterns you see in the beta diversity of the communities in the control and Ash Leachate treatments. 
 
-A5: 
+A5: While the ash leachate and control treatments began the experiment with similar 
+community composition, meaning that the beta diversity was low. At day 4, the control and ash leachate treatment are quite dissimilar compared to day 0, and the beta diversity accross the treatments increases. In Santa Barbara, it looks like there is a lower beta diversity accross treatments than San Diego on day 4 since the points are closer together. 
+
 
 # Alpha Diversity
 
@@ -236,7 +238,7 @@ pivot.data <- alphadiv %>%
   left_join(., alphadiv %>% 
               select(Treatment, Location, Bottle, Timepoint, days, se.chao1)) %>% 
   mutate(se.chao1 = ifelse(measure == "Chao1", se.chao1, NA)) 
-
+ 
 alpha.plot <- ggboxplot(pivot.data, x = "Timepoint", y = "est",
             # color = "Location",
             # palette = c("#0db5e6","#d31f2a"),
@@ -277,7 +279,7 @@ From this plot we can see between the treatments that the richness of the contro
 
 Q6: Summarize the major takeaways from the alpha diversity plots you generated. 
 
-A6: 
+A6: The major takeaway of the alpha diversity plots is that at time point 6, the ash leachate treatment has a significantly lower alpha diversity than the control and the ash leachate treatment also has a lower richness than the control. The ash leachate treatment resulted in lower richness and lower evenness.
 
 # Who??
 
@@ -377,17 +379,17 @@ relaheat
 
 Q7: Who uniquely increased in relative abundance in the ash leachate treatment that did not in the control? what about decrease?
 
-A7: 
+A7: Oceanospirillales, Campylobacterales, and Alteromonadales all increase in relative abundance in the ash leachate treatment, but not really for the control. There were no noticable decreases in the ash leachate that did not occur in the control as well, but the SAR11 clade decreased in abundance **more** in the ash leachate treatment than the control. Synechococcales also decreased in relative abundance in the ash leachate **more** than the control. 
 
 Everything shown here is just a snapshot of what you can look at with your community composition data. There are many other resources you can use to get ideas of how to look at different aspects of your data, including the [phyloseq tutorial](https://joey711.github.io/phyloseq/) and [happy belly bioinformatics](https://astrobiomike.github.io). It's up to you and your questions!!
 
 # Save and knit
 
 ```{r}
-saveRDS(sweet.tab, "~/Documents/144l_students_2021/Output_Data/week7/Custom_ASV_Table.rds")
-saveRDS(sub_ps, "~/Documents/144l_students_2021/Output_Data/week7/phyloseq_obj.rds")
-saveRDS(ps_min, "~/Documents/144l_students_2021/Output_Data/week7/subsampled_phyloseq_obj.rds")
-saveRDS(alphadiv, "~/Documents/144l_students_2021/Output_Data/week7/alphadiv.rds")
+saveRDS(sweet.tab, "~/Desktop/github/144l_students_2021/Output_Data/week7/Custom_ASV_Table.rds")
+saveRDS(sub_ps, "~/Desktop/github/144l_students_2021/Output_Data/week7/phyloseq_obj.rds")
+saveRDS(ps_min, "~/Desktop/github/144l_students_2021/Output_Data/week7/subsampled_phyloseq_obj.rds")
+saveRDS(alphadiv, "~/Desktop/github/144l_students_2021/Output_Data/week7/alphadiv.rds")
 
 ```
 
