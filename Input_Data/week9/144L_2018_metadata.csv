@@ -1,0 +1,7 @@
+Experiment,Location,Temperature,Depth,Timepoint,Treatment,Target_DOC_Amendment,Inoculum_L,Media_L,Datetime,TOC_Sample,Cell_Sample,DAPI_Sample,DNA_Sample,Nutrient_Sample,Cells_mL,Cells_mL_Stdev,Mean_Biovolume_um3_cell,Biovolume_Stdev_um3_cell,ln_cells_exp_start,ln_cells_exp_end,cells_exp_phase_start,cells_exp_phase_end,days_exp_phase_start,days_exp_phase_end,mew,doubling,delta_cells_exp,bac_carbon_uM,delta_bac_carbon_uM,Cells_L,Cells_L_Stdev,interv,s,hours,days,ln_cells,diff_ln_cells,exp_start,exp_end,cells_exp_start,cells_exp_end,days_exp_start,days_exp_end,delta_cells,CCF,bc,delta_bc,biovol_CCF,biovol_bc,biovol_bc_exp_end,delta_biovol_bc
+144L_2018,Goleta Pier,,,0,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+144L_2018,Goleta Pier,,,4,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+144L_2018,Goleta Pier,,,8,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+144L_2018,Goleta Pier,,,0,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+144L_2018,Goleta Pier,,,4,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+144L_2018,Goleta Pier,,,8,Glucose_Nitrate_Phosphate,10,,,,,,,TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
