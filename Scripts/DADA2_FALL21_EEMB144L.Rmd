@@ -156,9 +156,8 @@ head(mergers[[1]])
 
 
 ```{r}
-#tutorial says week 5/6, just save in Input & Output data for Week 7 (we are on a different schedule this year than previous)
-saveRDS(mergers, "~/Desktop/github/144l_students_2021/Output_Data/week7//dada_merged.rds")
-saveRDS(mergers, "~/Desktop/github//144l_students_2021/Input_Data/week7/dada_merged.rds")
+saveRDS(mergers, "~/Desktop/github/144l_students_2021/Output_Data/week9/dada_merged.rds")
+saveRDS(mergers, "~/Desktop/github//144l_students_2021/Input_Data/week9/dada_merged.rds")
 ```
 
 
@@ -189,26 +188,20 @@ sum(seqtab.nochim)/sum(seqtab)
 
 # Assign taxonomy using a reference database
 
-here we are referencing the Silva database
 
 ```{r}
-taxa <- assignTaxonomy(seqtab.nochim, "~/Desktop/github/144l_students_2021/Input_Data/week7/Reference_Database/silva_nr_v138_train_set.fa", multithread = TRUE)
+taxa <- assignTaxonomy(seqtab.nochim, "~/Desktop/github/144l_students_2021/Input_Data/week9/Reference_Database/silva_nr_v138_train_set.fa", multithread = TRUE)
 
 ```
 
-This took ~90s to complete on a 2021 MacBook Pro
-
-create a table out of the taxa data (one with the sequences and taxonomic assignments, one with just all the taxa)
-
-these are the tables you want to save!! 
 
 ```{r}
-saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Output_Data/week7/seqtab-nochimtaxa.rds")
-saveRDS(taxa, "~/Desktop/github/144l_students_2021/Output_Data/week7/taxa.rds")
+saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Output_Data/week9/seqtab-nochimtaxa.rds")
+saveRDS(taxa, "~/Desktop/github/144l_students_2021/Output_Data/week9/taxa.rds")
 
-#save in both Output and Input data folders for week7
 
-saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Input_Data/week7/seqtab-nochimtaxa.rds")
-saveRDS(taxa, "~/Desktop/github/144l_students_2021/Input_Data/week7/taxa.rds")
+saveRDS(t(seqtab.nochim), "~/Desktop/github/144l_students_2021/Input_Data/week9/seqtab-nochimtaxa.rds")
+saveRDS(taxa, "~/Desktop/github/144l_students_2021/Input_Data/week9/taxa.rds")
         
 ```
+
