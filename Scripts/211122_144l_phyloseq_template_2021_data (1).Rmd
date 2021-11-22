@@ -2,11 +2,11 @@
 title: "211122_144L_phyloseq"
 author: "Your Name"
 date: "11/17/2021"
-output: github_document
+output: html_document
 ---
 # Intro
 
-We explore the processed ACIDD 16S sequences using [phyloseq](https://joey711.github.io/phyloseq/)
+We explore the processed Kelp Remin 16S sequences using [phyloseq](https://joey711.github.io/phyloseq/)
 
 # Install phyloseq
 
@@ -30,25 +30,30 @@ library(RColorBrewer)
 # Import Data 
 
 ```{r message = F}
-count.tab <- read_rds("~/Documents/144l_students_2021/Input_Data/week7/144Lseqtab-nochimtaxa.rds") #table of counts for each sequence in each sample
-tax.tab <- read_rds("~/Documents/144l_students_2021/Input_Data/week7/144L_taxa.rds") #table that matches ASV to sequence
+count.tab <- read_rds("~/Desktop/github/144l_students_2021/Input_Data/week9/seqtab-nochimtaxa.rds") #table of counts for each sequence in each sample, update the file path for the .rds file you generated with dada2
+tax.tab <- read_rds("~/Desktop/github/144l_students_2021/Input_Data/week9/taxa.rds") #table that matches ASV to sequence, update file path to your own file
 
-#you will need to download the ACIDD_Exp_Processed_DOC_BGE.rds and the ACIDD_Exp_BactAbund.xlsx files from Justine's Github repository (located in Input_Data/week7/) and put them into your own local Input Data folder
-metadata_OG <- read_excel("~/Documents/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "Metadata")
+```
+
+```{r}
+#you will need to download the Kelp_Exp_Processed_DOC_BGE.rds and the 144L_2021_metadata.xlsx files from the week9 folder on the class Google Drive and put them into your own local Input Data folder
+metadata_OG <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week9/144L_2021_metadata.xlsx", sheet = "Metadata")
 glimpse(metadata_OG)
 metadata <- metadata_OG %>%
-  mutate(Datetime = ymd_hm(Datetime))
+  select(-Datetime)
 glimpse(metadata)
-metadata_doc <- read_rds("~/Documents/144l_students_2021/Output_Data/week6/144L_Exp_Processed_BactAbund.rds")
+#you can get this file from your own week6 data
+metadata_doc <- read_rds("~/Desktop/github/144l_students_2021/Output_Data/week6/144L_Exp_Processed_BactAbund.rds")
 glimpse(metadata_doc)
-#metadata_doc_x <- metadata_doc %>%
-#  mutate(Datetime = as.character(Datetime))
-#glimpse(metadata_doc_x)
-#write.csv(metadata_doc_x, file = "~/Documents/144l_students_2021/Input_Data/week8/144L_doc_metadata.csv")
-metadata_mock <- read_csv("~/Documents/144l_students_2021/Input_Data/week8/144L_mocks_metadata.csv")
+metadata_mock <- read_csv("~/Desktop/github/144l_students_2021/Input_Data/week9/144L_2018_metadata.csv")
 glimpse(metadata_mock)
 join1 <- rbind(metadata_mock, metadata_doc)
-join <- left_join(join1, metadata)
+glimpse(join1)
+join2 <- join1 %>%
+  select(-Datetime)
+glimpse(join2)
+#need to filter out 
+join <- left_join(join2, metadata)
 sample.tab <- join %>%
   unique() %>%
   drop_na(DNA_Sample_ID) %>% 
@@ -101,7 +106,7 @@ Q2: Describe what "sequencing depth" means in your own words.
 
 A2: 
 
-Rarefaction Curve
+Rarefaction Curve - another way to visualize your read depth!
 ```{r}
 rarecurve(t(otu_table(sub_ps)), step=50, cex=0.5)
 ```
@@ -174,10 +179,10 @@ nmds_min <- ordinate(ps_min, method = "NMDS",  distance = "bray") # stress = 0.0
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = "center"}
 sample_data(sub_ps)
-levels <- c("Control", "Kelp Exudate", "Kelp Exudate_Nitrate_Phosphate", "Even", "Stag")
+levels <- c("Control", "Kelp Exudate", "Kelp Exudate_Nitrate_Phosphate", "Glucose_Nitrate_Phosphate")
 nmds.plot <- plot_ordination(sub_ps, nmds,  title = "NMDS") +
    geom_point(aes(fill = days, shape = factor(Treatment, levels = levels)), alpha = 0.6, stroke = 2, size = 4) +
-  scale_shape_manual(values = c(21, 22, 23)) +
+  scale_shape_manual(values = c(21, 22, 23, 24)) +
   scale_fill_gradient(low = "#0db5e6", high = "#d31f2a") +
   theme_bw() 
 nmds.plot
@@ -193,7 +198,7 @@ nmds.plot +
 ```{r echo = FALSE, warning = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = "center"}
 nmds_min.plot <- plot_ordination(ps_min, nmds_min,  title = "NMDS") +
    geom_point(aes(fill = days, shape = factor(Treatment, levels = levels)), alpha = 0.6, stroke = 2, size = 4) +
-  scale_shape_manual(values = c(21, 22, 23)) +
+  scale_shape_manual(values = c(21, 22, 23, 24)) +
   scale_fill_gradient(low = "#0db5e6", high = "#d31f2a") +
   theme_bw() 
 
@@ -310,38 +315,6 @@ Which taxa were important? Which taxa were contributing to the change in communi
 That said, we can generate a heat map of our samples showing us how the relative abundance of different taxonomic groups change...potentially giving us a visual of which taxa are most important to the alpha and beta diversity patterns we observed. 
 First, we're going to generate a custom table that will be easier to work with than a phyloseq object.
 
-## Trying Justine's code:
-
-First get rid of NA values in the data:
-```{r}
-#try renaming NA values
-tax.clean <- data.frame(tax_table(sub_ps))
-for (i in 1:6){ tax.clean[,i] <- as.character(tax.clean[,i])}
-tax.clean[is.na(tax.clean)] <- ""
-for (i in 1:nrow(tax.clean)){
-  if (tax.clean[i,1] == ""){
-    kingdom <- paste("Kingdom_", tax.clean[i,1], sep = "")
-    tax.clean[i, 1:6] <- kingdom
-  } else if (tax.clean[i,2] == ""){
-    phylum <- paste("Phylum_", tax.clean[i,2], sep = "")
-    tax.clean[i, 2:6] <- phylum
-  } else if (tax.clean[i,3] == ""){
-    class <- paste("Class_", tax.clean[i,3], sep = "")
-    tax.clean[i, 3:6] <- class
-  } else if (tax.clean[i,4] == ""){
-    order <- paste("Order_", tax.clean[i,4], sep = "")
-    tax.clean[i, 4:6] <- order
-  } else if (tax.clean[i,5] == ""){
-    family <- paste("Family_", tax.clean[i,5], sep = "")
-    tax.clean[i, 5:6] <- family
-  } else if (tax.clean[i,6] == ""){
-    tax.clean$Species[i] <- paste("Genus",tax.clean$Genus[i], sep = "_")
-  }
-}
-tax_table(sub_ps) <- as.matrix(tax.clean)
-tail(tax_table(sub_ps))
-```
-
 ## Generate relative abundances
 
 Our data currently shows number gene copies recovered, so we'll convert to percentages (relative abundances)
@@ -352,117 +325,6 @@ ps_std <- transform_sample_counts(sub_ps, function(x) x/sum(x))
 #extract the relative abundance table and coerce into dataframe
 ps_std.tab <- as(otu_table(ps_std), "matrix")
 ps_std.df = as.data.frame(ps_std.tab) 
-```
-
-```{r}
-#transform data to fractional abundance (relative abundance)
-i.frac <- transform_sample_counts(sub_ps, function(otu) otu/sum(otu))
-head(sample_data(i.frac))
-otu_table(i.frac)
-tax_table(i.frac)
-sample_sums(i.frac)
-taxa_sums(i.frac)
-#glom by genus. 
-#Shouldn't have problem with NA values being left out because there are no NA now. 
-i.frac.glomgen <- tax_glom(i.frac, taxrank="Genus") 
-tax_table(i.frac.glomgen)
-ntaxa(i.frac.glomgen)
-sample_data(i.frac.glomgen)
-otu_table(i.frac.glomgen)
-i.frac.glomgen
-```
-```{r}
-gen <- psmelt(i.frac.glomgen)
-glimpse(gen)
-
-#try to get the top _ taxa from each sample
-order <- gen[order(-gen$Abundance), ]
-top <- by(order, order["Sample"], head, n=10)
-gen.top <- Reduce(rbind, top)
-```
-
-```{r}
-HowManydivision <- length(unique(gen.top[[61]]))
-getPalette = colorRampPalette(brewer.pal(8, "Set2")) 
-PhylaPalette = getPalette(HowManydivision)
-#PhylaPalette = getPalette(2)
-PhylaPalette
-
-ggplot(data= gen.top, aes(x= Sample, y= Abundance, fill=Family)) +
-  geom_bar(stat="identity", position = "stack", width = 0.5) +
-  facet_wrap(~ Treatment, scales="free_x", nrow=1) +
-  scale_fill_manual(values=PhylaPalette)+
-  scale_y_continuous(expand = expansion(mult = c(0, .1)))+
-  labs(x="", y="Proportion of 16S rRNA gene copies recovered", title="RA of NOB - Unfiltered 0.2um") +
-  theme_classic()+
-  theme(axis.text.x=element_text(margin = margin(t = 5, r = 0, b = 3, l = 0),angle =20, size=10),
-        axis.text.y=element_text(margin = margin(t = 0, r = 0, b = 0, l = 10), angle=0,size=10),
-        legend.title=element_text(size=0),  
-        legend.text = element_text(size=5),
-        legend.direction = "vertical",
-        legend.key.size = unit(0.5,"line"),
-        panel.border = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),)+
-  guides(fill=guide_legend(ncol=1))
-```
-
-```{r}
-mocks <- subset(gen, gen$Treatment == "Stag" | gen$Treatment == "Even")
-
-HowManydivision <- length(unique(mocks[[61]]))
-getPalette = colorRampPalette(brewer.pal(8, "Set2")) 
-PhylaPalette = getPalette(HowManydivision)
-#PhylaPalette = getPalette(2)
-PhylaPalette
-
-ggplot(data= mocks, aes(x= Sample, y= Abundance, fill=Family)) +
-  geom_bar(stat="identity", position = "stack", width = 0.5) +
-  facet_wrap(~ Treatment, scales="free_x", nrow=1) +
-  scale_fill_manual(values=PhylaPalette)+
-  scale_y_continuous(expand = expansion(mult = c(0, .1)))+
-  labs(x="", y="Proportion of 16S rRNA gene copies recovered", title="RA of Stag & Even Mock Communities") +
-  theme_classic()+
-  theme(axis.text.x=element_text(margin = margin(t = 5, r = 0, b = 3, l = 0),angle =20, size=10),
-        axis.text.y=element_text(margin = margin(t = 0, r = 0, b = 0, l = 10), angle=0,size=10),
-        legend.title=element_text(size=0),  
-        legend.text = element_text(size=5),
-        legend.direction = "vertical",
-        legend.key.size = unit(0.5,"line"),
-        panel.border = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),)+
-  guides(fill=guide_legend(ncol=1))
-```
-
-```{r}
-exp.top <- subset(gen.top, gen.top$Treatment == "Control" | gen.top$Treatment == "Kelp Exudate_Nitrate_Phosphate" | gen.top$Treatment == "Kelp Exudate")
-
-exp <- subset(gen, gen$Treatment == "Control" | gen$Treatment == "Kelp Exudate_Nitrate_Phosphate" | gen$Treatment == "Kelp Exudate")
-
-HowManydivision <- length(unique(exp.top[[61]]))
-getPalette = colorRampPalette(brewer.pal(8, "Set2")) 
-PhylaPalette = getPalette(HowManydivision)
-#PhylaPalette = getPalette(2)
-PhylaPalette
-
-ggplot(data= exp.top, aes(x= Sample, y= Abundance, fill=Family)) +
-  geom_bar(stat="identity", position = "stack", width = 0.5) +
-  facet_wrap(~ Treatment, scales="free_x", nrow=1) +
-  scale_fill_manual(values=PhylaPalette)+
-  scale_y_continuous(expand = expansion(mult = c(0, .1)))+
-  labs(x="", y="Proportion of 16S rRNA gene copies recovered", title="RA of Top Ten Taxa per Sample : 144L 2021 Remin Experiment") +
-  theme_classic()+
-  theme(axis.text.x=element_text(margin = margin(t = 5, r = 0, b = 3, l = 0),angle =20, size=10),
-        axis.text.y=element_text(margin = margin(t = 0, r = 0, b = 0, l = 10), angle=0,size=10),
-        legend.title=element_text(size=0),  
-        legend.text = element_text(size=10),
-        legend.direction = "vertical",
-        legend.key.size = unit(1,"line"),
-        panel.border = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),)+
-  guides(fill=guide_legend(ncol=2))
 ```
 
 ## Make table
@@ -498,24 +360,24 @@ colnames(t_custom.tab) <- colnames$pco
 #merge
 sweet.tab <- t_custom.tab %>% 
   rownames_to_column(., var = "sample") %>% 
-  left_join(., sample.tab %>% rownames_to_column(., var = "sample") %>% select(sample, Experiment, Location, Bottle, Treatment, Timepoint, days, cells_L)) %>% 
-  select(sample, Experiment:cells, everything())
+  left_join(., sample.tab %>% rownames_to_column(., var = "sample") %>% select(sample, Experiment, Location, Bottle, Treatment, Timepoint, days, Cells_L)) %>% 
+  select(sample, Experiment:Cells_L, everything())
 
 
 relabund <- sweet.tab %>% 
-  select(-c(sample:cells)) %>% 
+  select(-c(sample:Cells_L)) %>% 
   #remove groups that are completely absent
-  .[ , colSums(.) > 0] %>% 
+  #.[ , colSums(.) > 0] %>% 
   #arrange by biggest contributors
   .[, order(colSums(-.))] %>% 
-  bind_cols(sweet.tab %>% select(sample:cells), .)
+  bind_cols(sweet.tab %>% select(sample:Cells_L), .)
 ```
 
 ## Heatmap
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE, fig.height = 16, fig.width = 10, fig.align = "center"}
 relaheat.data <- relabund %>% 
-  select(-c(sample, Experiment, Location, Bottle, days, cells)) %>%
+  select(-c(sample, Experiment, Location, Bottle, days, Cells_L)) %>%
   pivot_longer(.,-c(Treatment:Timepoint), names_to = "taxa", values_to = "relabund") %>% 
   separate(taxa, into = c("p", "c", "o"), sep = " _ ") %>% 
   group_by(Treatment, Timepoint, p, c, o) %>% 
@@ -550,10 +412,10 @@ Everything shown here is just a snapshot of what you can look at with your commu
 # Save and knit
 
 ```{r}
-saveRDS(sweet.tab, "~/Documents/144l_students_2021/Output_Data/week7/Custom_ASV_Table.rds")
-saveRDS(sub_ps, "~/Documents/144l_students_2021/Output_Data/week7/phyloseq_obj.rds")
-saveRDS(ps_min, "~/Documents/144l_students_2021/Output_Data/week7/subsampled_phyloseq_obj.rds")
-saveRDS(alphadiv, "~/Documents/144l_students_2021/Output_Data/week7/alphadiv.rds")
+saveRDS(sweet.tab, "~/Documents/144l_students_2021/Output_Data/week9/Custom_ASV_Table.rds")
+saveRDS(sub_ps, "~/Documents/144l_students_2021/Output_Data/week9/phyloseq_obj.rds")
+saveRDS(ps_min, "~/Documents/144l_students_2021/Output_Data/week9/subsampled_phyloseq_obj.rds")
+saveRDS(alphadiv, "~/Documents/144l_students_2021/Output_Data/week9/alphadiv.rds")
 
 ```
 
@@ -563,7 +425,7 @@ saveRDS(alphadiv, "~/Documents/144l_students_2021/Output_Data/week7/alphadiv.rds
 ```{r echo = FALSE, warning = FALSE, message = FALSE, fig.height = 8, fig.width = 8, fig.align = "center"}
 
 relabar.data <- relabund %>% 
-  select(-c(sample, Experiment, days, cells)) %>%
+  select(-c(sample, Experiment, days, Cells_L)) %>%
   pivot_longer(.,-c(Location:Timepoint), names_to = "taxa", values_to = "relabund") %>% 
   group_by(Treatment, Timepoint, taxa) %>% 
   mutate(mean_relabund = mean(relabund, na.rm = T)) %>% 
@@ -583,4 +445,62 @@ relabar.data %>%
   theme_bw() +
   guides(fill = guide_legend(reverse = TRUE, keywidth = 1, kerheight = 1, title = "Order")) +
   facet_grid(~factor(Treatment, levels = levels))
+```
+
+#Another way to make the barplot: 
+
+```{r}
+#transform data to fractional abundance (relative abundance)
+i.frac <- transform_sample_counts(sub_ps, function(otu) otu/sum(otu))
+head(sample_data(i.frac))
+
+otu_table(i.frac)
+tax_table(i.frac)
+sample_sums(i.frac)
+taxa_sums(i.frac)
+
+#glom (aggregate) taxa by genus. 
+
+i.frac.glomgen <- tax_glom(i.frac, taxrank="Genus") 
+tax_table(i.frac.glomgen)
+ntaxa(i.frac.glomgen)
+sample_data(i.frac.glomgen)
+otu_table(i.frac.glomgen)
+i.frac.glomgen
+```
+
+```{r}
+gen <- psmelt(i.frac.glomgen)
+glimpse(gen)
+
+#get the top _ taxa from each sample
+order <- gen[order(-gen$Abundance), ]
+top <- by(order, order["Sample"], head, n=10)
+gen.top <- Reduce(rbind, top)
+```
+
+```{r}
+HowManydivision <- length(unique(gen.top[[61]]))
+getPalette = colorRampPalette(brewer.pal(8, "Set2")) 
+PhylaPalette = getPalette(HowManydivision)
+#PhylaPalette = getPalette(2)
+PhylaPalette
+
+ggplot(data= gen.top, aes(x= Sample, y= Abundance, fill=Family)) +
+  geom_bar(stat="identity", position = "stack", width = 0.5) +
+  facet_wrap(~ Treatment, scales="free_x", nrow=1) +
+  scale_fill_manual(values=PhylaPalette)+
+  scale_y_continuous(expand = expansion(mult = c(0, .1)))+
+  labs(x="", y="Proportion of 16S rRNA gene copies recovered", title="RA of Top Ten Taxa per Sample : 144L 2021 Remin Experiment") +
+  theme_classic()+
+  theme(axis.text.x=element_text(margin = margin(t = 5, r = 0, b = 3, l = 0),angle =20, size=10),
+        axis.text.y=element_text(margin = margin(t = 0, r = 0, b = 0, l = 10), angle=0,size=10),
+        legend.title=element_text(size=0),  
+        legend.text = element_text(size=5),
+        legend.direction = "vertical",
+        legend.key.size = unit(0.5,"line"),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),)+
+  guides(fill=guide_legend(ncol=1))
 ```
