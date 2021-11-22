@@ -76,9 +76,6 @@ You should look at least some of the quality profiles to assess the quality of t
 ```{r fig.height=10, fig.width=12}
 plotQualityProfile(fnFs[1:12])
 ```
-Q2: Where will we trim our forward reads, and why?
-
-A2: 240 bp. For the forward reads, the quality doesn't drop off too drastically, but we want to trim it where the quality is not as good as the rest. This is around 240 for all the forward reads. 
 
 # Reverse reads 
 
@@ -86,13 +83,6 @@ A2: 240 bp. For the forward reads, the quality doesn't drop off too drastically,
 plotQualityProfile(fnRs[1:12])
 ```
 
-Q3: How does the quality of the reverse reads compare to the forward reads? Is the quality of these reads acceptable to continue through the DADA2 pipeline? Why or why not? 
-
-A3: The quality of the reverse reads becomes much worse compared to the forward reads. The quality of these reads is acceptable to continue because later in the error model DADA2 will incorporate quality information. 
-
-Q4: Where will we trim our reverse reads and why?
-
-A4: We will trim our reverse reads around 150 bp because that is where the quality drops off.
 
 # Filtering and Trimming 
 
@@ -109,9 +99,6 @@ filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq"))
 filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq"))
 ```
 
-Below is the actual filtering step. We're using standard filtering parameters. 
-1. dada2 generally advises trimming the last few nucleotides for weird sequencing errors that can pop up there. 
-2. maxEE is the max number of expected errors (calculated from Q's) to allow in each read. This is a probability calculation. 3. minQ is threshold Q - and read with a Q < minQ after truncating reads get discarded. This isn't that important for 16S. 
 
 ```{r}
 out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 150), maxN = 0, maxEE = c(2,2), truncQ = 2, rm.phix = TRUE, compress = TRUE)
@@ -119,13 +106,7 @@ out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 150), maxN = 
 out
 ```
 
-Q5: What does it mean if a base call (base pairs read by the sequencer) is an "N"? Are we going to use sequences that contain N's in the rest of our workflow? Which part of the filterAndTrim function specifies how to treat sequences with N's in them? 
 
-A5: The base call is an N when the sequencer doesn't know what nucleotide gets put there. We are not going to use sequences that contain N's in the rest of our workflow. maxN = O is the part that removes sequences with N's in them. 
-
-Q6: Based on the "out" table, what is the average percentage of our reads that we retain (reads that did not get filtered out) going forward in the pipeline? 
-
-A6: The average percentage of our reads that we retain is the amount of reads out over reads in. It appears that the average percentage of reads that we retain is about 93%.
 
 # Learn the error rates
 
