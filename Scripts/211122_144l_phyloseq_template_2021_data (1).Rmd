@@ -2,7 +2,7 @@
 title: "211122_144L_phyloseq"
 author: "Your Name"
 date: "11/17/2021"
-output: html_document
+output: github_document
 ---
 # Intro
 
