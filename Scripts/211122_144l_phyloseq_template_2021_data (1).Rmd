@@ -9,7 +9,6 @@ output: html_document
 We explore the processed Kelp Remin 16S sequences using [phyloseq](https://joey711.github.io/phyloseq/)
 
 # Install phyloseq
-
 ```{r}
 #BiocManager::install("phyloseq")
 ```
@@ -23,8 +22,10 @@ library(readxl)
 library(lubridate)
 library(vegan)
 library(viridis)
+#install.packages("dichromat")
 library(dichromat)
 library(RColorBrewer)
+
 ```
 
 # Import Data 
@@ -47,7 +48,19 @@ metadata_doc <- read_rds("~/Desktop/github/144l_students_2021/Output_Data/week6/
 glimpse(metadata_doc)
 metadata_mock <- read_csv("~/Desktop/github/144l_students_2021/Input_Data/week9/144L_2018_metadata.csv")
 glimpse(metadata_mock)
-join1 <- rbind(metadata_mock, metadata_doc)
+```
+
+```{r}
+# determine which column names are common among the two data sets
+mock_names <- colnames(metadata_mock)
+doc_names <- colnames(metadata_doc)
+common_names <- intersect(mock_names, doc_names)
+
+# join the data sets based off of common names
+join1 <- rbind(metadata_mock[common_names], metadata_doc[common_names])
+```
+
+```{r}
 glimpse(join1)
 join2 <- join1 %>%
   select(-Datetime)
@@ -157,7 +170,7 @@ mean(sample_sums(ps_min)) #6048 this is also the same as min(sample_sums(sub)ps)
 
 Q3: Do you think that the subsampling we did here will have a large effect on our beta diveristy analyses? why or why not? 
 
-A3: 
+A3: Yes because the mean 
 
 ## NMDS
 
@@ -254,7 +267,7 @@ alphadiv <- left_join(richness, sample.tab %>% rownames_to_column(., var = "DNA_
 
 ```{r echo = FALSE, warning = FALSE, message = FALSE, fig.height = 6, fig.width = 8, fig.align = "center"}
 
-# install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 
 pivot.data <- alphadiv %>% 
@@ -386,7 +399,7 @@ relaheat.data <- relabund %>%
   select(-relabund) %>% 
   distinct()
 
-# install.packages("viridis")
+#install.packages("viridis")
 library(viridis)
 
 relaheat <- relaheat.data %>%
@@ -412,10 +425,10 @@ Everything shown here is just a snapshot of what you can look at with your commu
 # Save and knit
 
 ```{r}
-saveRDS(sweet.tab, "~/Documents/144l_students_2021/Output_Data/week9/Custom_ASV_Table.rds")
-saveRDS(sub_ps, "~/Documents/144l_students_2021/Output_Data/week9/phyloseq_obj.rds")
-saveRDS(ps_min, "~/Documents/144l_students_2021/Output_Data/week9/subsampled_phyloseq_obj.rds")
-saveRDS(alphadiv, "~/Documents/144l_students_2021/Output_Data/week9/alphadiv.rds")
+saveRDS(sweet.tab, "~/Desktop/github/144l_students_2021/Output_Data/week9/Custom_ASV_Table.rds")
+saveRDS(sub_ps, "~/Desktop/github/144l_students_2021/Output_Data/week9/phyloseq_obj.rds")
+saveRDS(ps_min, "~/Desktop/github/144l_students_2021/Output_Data/week9/subsampled_phyloseq_obj.rds")
+saveRDS(alphadiv, "~/Desktop/github/144l_students_2021/Output_Data/week9/alphadiv.rds")
 
 ```
 
@@ -480,7 +493,8 @@ gen.top <- Reduce(rbind, top)
 ```
 
 ```{r}
-HowManydivision <- length(unique(gen.top[[61]]))
+HowManydivision <- length(unique(gen.top[[53]]))
+
 getPalette = colorRampPalette(brewer.pal(8, "Set2")) 
 PhylaPalette = getPalette(HowManydivision)
 #PhylaPalette = getPalette(2)
