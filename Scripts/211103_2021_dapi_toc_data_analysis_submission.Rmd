@@ -71,7 +71,7 @@ We will plot growth curves for each treament with DAPI cell abundance and biovol
 
 ## Cell Abundance:
 
-```{r fig.height=6, fig.width=7}
+```{r fig.height=10, fig.width=10}
 #assign hex colors to our different treatments, example below:
 custom.colors <- c("Control" = "lightpink1", "Kelp Exudate" = "skyblue1", "Kelp Exudate_Nitrate_Phosphate" = "mediumpurple1", "Glucose_Nitrate_Phosphate" = "lightgreen")
 
