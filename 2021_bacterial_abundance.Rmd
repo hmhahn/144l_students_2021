@@ -31,7 +31,7 @@ I loaded data from the 2021 Bacterial Abundance excel sheet, which had two sheet
 metadata <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "Metadata")
 
 # Create dataset "data" by loading the specific sheet called data from the excel sheet
-data <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "Data")
+data <- read_excel("~/Desktop/github/144l_students_2021/Input_Data/week4/144L_2021_BactAbund.xlsx", sheet = "DAPI_Data")
 
 # join datasets
 joined <- left_join(metadata, data)
