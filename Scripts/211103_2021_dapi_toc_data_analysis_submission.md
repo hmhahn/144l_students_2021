@@ -755,8 +755,8 @@ toc %>%
   geom_errorbar(aes(ymin = Mean_uMC - Stdev_uMC, ymax = Mean_uMC + Stdev_uMC, color = factor(Treatment, levels = levels)), width = 0.4) +
   geom_point(aes(fill = factor(Treatment, levels = levels)), size = 3, shape = 21, alpha = 0.7 ) +
   geom_line(aes(color = factor(Treatment, levels = levels)), size = 1, alpha = 0.7 ) +
-  #scale_color_manual(values = custom.colors) +
-  #scale_fill_manual(values = custom.colors) +
+  scale_color_manual(values = custom.colors) +
+  scale_fill_manual(values = custom.colors) +
   labs(x = "Days", y = expression(paste("Total Organic Carbon, µmol C L"^-1))) +
   theme_classic() +
   #comment out the facet_wrap if you want to view all the treatments on top of eachother 
