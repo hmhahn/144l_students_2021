@@ -175,7 +175,7 @@ and biovolume data.
 
 ``` r
 #assign hex colors to our different treatments, example below:
-# <- c("Control" = "#377EB8", "Ash Leachate" = "#4DAF4A", "Mud Leachate" = "#E41A1C", "Glucose_Nitrate_Phosphate" = "#FF7F00")
+custom.colors <- c("Control" = "lightpink1", "Kelp Exudate" = "skyblue1", "Kelp Exudate_Nitrate_Phosphate" = "mediumpurple1", "Glucose_Nitrate_Phosphate" = "lightgreen")
 
 #assign levels to control what order things appear in the legend
 levels <- c("Control", "Kelp Exudate", "Kelp Exudate_Nitrate_Phosphate", "Glucose_Nitrate_Phosphate")
@@ -191,8 +191,8 @@ cells %>%
   #geom_text(aes(label = dna), size = 12, color = "#E41A1C") +
   labs(x = "Days", y = expression(paste("Cells, L"^-1)), fill = "") + 
   guides(color = "none") + 
-  #scale_color_manual(values = custom.colors) +
-  #scale_fill_manual(values = custom.colors) +
+  scale_color_manual(values = custom.colors) +
+  scale_fill_manual(values = custom.colors) +
   #facet_grid(rows = "Treatment")
   theme_bw()
 ```
