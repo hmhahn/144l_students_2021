@@ -264,8 +264,8 @@ cells %>%
   #geom_text(aes(label = dna), size = 12, color = "#E41A1C") +
   labs(x = "Days", y = expression(paste("Mean Biovolume, um"^3,"/cell")), fill = "") + 
   guides(color = "none") + 
-  #scale_color_manual(values = custom.colors) +
-  #scale_fill_manual(values = custom.colors) +
+  scale_color_manual(values = custom.colors) +
+  scale_fill_manual(values = custom.colors) +
   #facet_grid(rows = "Treatment")
   theme_bw()
 ```
